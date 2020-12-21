@@ -1,6 +1,6 @@
 //
 //  SavedMeal.swift
-//  Recipes
+//  Meal Recipes
 //
 //  Created by Stas on 10.12.2020.
 //

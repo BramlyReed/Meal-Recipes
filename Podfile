@@ -7,5 +7,5 @@ target 'Meal Recipes' do
 
   # Pods for Meal Recipes
   pod 'RealmSwift'
-  pod 'SDWebImage'
+  pod 'SDWebImage' 
 end

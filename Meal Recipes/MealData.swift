@@ -1,6 +1,6 @@
 //
 //  MealData.swift
-//  Recipes
+//  Meal Recipes
 //
 //  Created by Stas on 04.12.2020.
 //
@@ -44,10 +44,4 @@ struct Meal: Codable{
         self.instructions = mealDictionary["strInstructions"] as? String ?? ""
     }
 }
-struct Photo{
-    var urlImage: String
-    var image: UIImage?
-    init(url: String) {
-        self.urlImage = url
-    }
-}
+

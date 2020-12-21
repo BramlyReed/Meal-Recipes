@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--Find Name Controller-->
         <scene sceneID="b36-XJ-z85">
             <objects>
                 <viewController id="q3l-TW-G3l" customClass="FindNameController" customModule="Meal_Recipes" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter a name of recipe" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uh0-om-Mlw">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's find something" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uh0-om-Mlw">
                                 <rect key="frame" x="30" y="59" width="354" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="Mq0-bi-gA9"/>
@@ -90,7 +90,7 @@
                             <constraint firstItem="50q-xb-plK" firstAttribute="trailing" secondItem="Uh0-om-Mlw" secondAttribute="trailing" constant="30" id="yyu-K3-M0y"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="OT5-sb-WUM"/>
+                    <tabBarItem key="tabBarItem" systemItem="search" id="OT5-sb-WUM"/>
                     <connections>
                         <outlet property="searchString" destination="OIQ-cg-2Tt" id="L75-iw-awJ"/>
                         <outlet property="tableWithNames" destination="Xky-ac-FkH" id="pcK-mH-xmB"/>
@@ -104,9 +104,9 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-115.94202898550725" y="75.669642857142847"/>
+            <point key="canvasLocation" x="-1197" y="459"/>
         </scene>
-        <!--Item-->
+        <!--Random-->
         <scene sceneID="B4c-2E-zcS">
             <objects>
                 <viewController storyboardIdentifier="showController" id="UV8-9L-IPo" customClass="RandomController" customModule="Meal_Recipes" customModuleProvider="target" sceneMemberID="viewController">
@@ -218,7 +218,7 @@
                             <constraint firstItem="O5O-Oa-8yY" firstAttribute="trailing" secondItem="m48-fh-EfT" secondAttribute="trailing" id="pbl-Vl-KzU"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="vw0-Ze-OXH"/>
+                    <tabBarItem key="tabBarItem" title="Random" image="questionmark.circle" catalog="system" id="vw0-Ze-OXH"/>
                     <connections>
                         <outlet property="imagePlace" destination="1D9-z6-L4i" id="o1Y-1R-biF"/>
                         <outlet property="ingredienstLabel" destination="51B-96-4yb" id="iiZ-pb-Hl4"/>
@@ -230,7 +230,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XW7-nf-PSf" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="894.20289855072474" y="75.669642857142847"/>
+            <point key="canvasLocation" x="-178" y="73"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Nr3-g8-DDD">
@@ -241,6 +241,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" red="0.92541915180000001" green="0.92553013559999997" blue="0.92538142199999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="m53-XL-sgi" kind="relationship" relationship="viewControllers" id="uyC-MU-Qxj"/>
@@ -252,7 +253,7 @@
             </objects>
             <point key="canvasLocation" x="-2226" y="73"/>
         </scene>
-        <!--Item-->
+        <!--Favorite Recipes Controller-->
         <scene sceneID="c6x-tr-dGC">
             <objects>
                 <viewController storyboardIdentifier="FavouriteController" id="m53-XL-sgi" customClass="FavoriteRecipesController" customModule="Meal_Recipes" customModuleProvider="target" sceneMemberID="viewController">
@@ -260,7 +261,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favourite Items" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jFU-xr-68P">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Favorite Items" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jFU-xr-68P">
                                 <rect key="frame" x="30" y="54" width="354" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="Prk-Yi-Pi6"/>
@@ -270,7 +271,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="IP6-Ft-ohw">
-                                <rect key="frame" x="5" y="92" width="404" height="721"/>
+                                <rect key="frame" x="5" y="92" width="404" height="716"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="gOE-U6-qYr">
                                     <size key="itemSize" width="128" height="128"/>
@@ -293,26 +294,29 @@
                         <viewLayoutGuide key="safeArea" id="G5q-aR-Nsh"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="IP6-Ft-ohw" firstAttribute="top" secondItem="jFU-xr-68P" secondAttribute="bottom" constant="8" symbolic="YES" id="4Sd-3x-jUk"/>
                             <constraint firstItem="G5q-aR-Nsh" firstAttribute="trailing" secondItem="IP6-Ft-ohw" secondAttribute="trailing" constant="5" id="9Ml-qn-u5b"/>
-                            <constraint firstItem="IP6-Ft-ohw" firstAttribute="top" secondItem="jFU-xr-68P" secondAttribute="bottom" constant="8" symbolic="YES" id="AKr-B0-c2A"/>
+                            <constraint firstItem="G5q-aR-Nsh" firstAttribute="bottom" secondItem="IP6-Ft-ohw" secondAttribute="bottom" constant="5" id="Zse-4D-RSp"/>
                             <constraint firstItem="jFU-xr-68P" firstAttribute="top" secondItem="G5q-aR-Nsh" secondAttribute="top" constant="10" id="diJ-2x-jh1"/>
                             <constraint firstItem="jFU-xr-68P" firstAttribute="leading" secondItem="G5q-aR-Nsh" secondAttribute="leading" constant="30" id="fbn-5k-uam"/>
                             <constraint firstItem="G5q-aR-Nsh" firstAttribute="trailing" secondItem="jFU-xr-68P" secondAttribute="trailing" constant="30" id="mBk-9D-tqv"/>
-                            <constraint firstItem="IP6-Ft-ohw" firstAttribute="bottom" secondItem="G5q-aR-Nsh" secondAttribute="bottom" id="o7g-uq-b27"/>
                             <constraint firstItem="IP6-Ft-ohw" firstAttribute="leading" secondItem="G5q-aR-Nsh" secondAttribute="leading" constant="5" id="p6L-oC-s8M"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="CEr-bo-R36"/>
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="CEr-bo-R36">
+                        <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="collectionView" destination="IP6-Ft-ohw" id="gzN-KM-fbb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LPn-Qp-y7Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1201.449275362319" y="83.705357142857139"/>
+            <point key="canvasLocation" x="-1197.1014492753625" y="-310.04464285714283"/>
         </scene>
     </scenes>
     <resources>
+        <image name="questionmark.circle" catalog="system" width="128" height="121"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

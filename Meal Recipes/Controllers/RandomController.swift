@@ -9,10 +9,12 @@ import UIKit
 import RealmSwift
 class RandomController: UIViewController {
 
+    var aView: UIView?
     var storedID: String?
     var storedURL: String?
     var meals: Meal?
     var textButtonChanger = true
+    
     @IBOutlet weak var multyButton: UIButton!
     @IBOutlet weak var mealName: UILabel!
     @IBOutlet weak var imagePlace: UIImageView!
@@ -22,9 +24,14 @@ class RandomController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mealName.isHidden = true
+        imagePlace.isHidden = true
+        ingredienstLabel.isHidden = true
+        instructionsLabel.isHidden = true
         imagePlace.layer.cornerRadius = 15.0
         imagePlace.layer.borderWidth = 1.0
         multyButton.isHidden = true
+        
         // MARK: get recipe's id from UserDefaults
         
         var name = UserDefaults.standard.string(forKey: "SavedId") ?? "Unknown"
@@ -53,10 +60,14 @@ class RandomController: UIViewController {
                 try! realm.write{
                     realm.add(tmpObject)
                 }
-                print("SAVED")
-                print(basa.last!.name)
+                showAlertSaved()
+                //print("SAVED")
+                //print(basa.last!.name)
             }
-            else{print("NOT UNIQUE")}
+            else{
+                showAlertError()
+                //print("NOT UNIQUE")
+            }
         }
         else{
             let object = realm.objects(SavedMeal.self).filter("id = %@", self.storedID).first
@@ -65,11 +76,11 @@ class RandomController: UIViewController {
                     realm.delete(obj)
                 }
             }
-            print("DELETE")
-            print(basa.count)
+            showAlertDeleted()
+            //print("DELETE")
+            //print(basa.count)
         }
         textButtonChanger.toggle()
-        print(textButtonChanger)
         if !(textButtonChanger){
             multyButton.setTitle("Delete", for: .normal)
             multyButton.setTitleColor(.red, for: .normal)
@@ -81,9 +92,10 @@ class RandomController: UIViewController {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
     }
     
-    // MARK: get random / withname recipe
+    // MARK: get random / recipe with name
     
     func getRecepi(gURL: String) {
+        self.showSpinner()
         let url = gURL
         API.randomReq(to_url: url) { mealll in
             if mealll != nil{
@@ -104,12 +116,16 @@ class RandomController: UIViewController {
                         }
                     }
                 }
-                // MARK: show ingredients and instructions
-                
-                self.ingredienstLabel.text = "INGREDIENTS:"
+                // MARK: show ingredients and instructions, remove spinner
+                self.mealName.isHidden = false
+                self.imagePlace.isHidden = false
+                self.ingredienstLabel.text = ("INGREDIENTS:")
                 self.ingredienstLabel.text! += self.meals!.ingredients
                 self.instructionsLabel.text = "INSTRUCTIONS:"
                 self.instructionsLabel.text! += "\n\(self.meals!.instructions)"
+                self.ingredienstLabel.isHidden = false
+                self.instructionsLabel.isHidden = false
+                self.removeSpinner()
             }
         }
         multyButton.setTitle("Save", for: .normal)
@@ -127,6 +143,38 @@ class RandomController: UIViewController {
             multyButton.setTitleColor(.red, for: .normal)
         }
         textButtonChanger.toggle()
+    }
+}
+// MARK: extension: alerts and spinner for RandomController
+extension RandomController {
+    func showAlertSaved() {
+        let alert = UIAlertController(title: "Comlpeted!", message: "This recipe was saved", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    func showAlertError() {
+        let alert = UIAlertController(title: "Error!", message: "This recipe was already saved", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    func showAlertDeleted() {
+        let alert = UIAlertController(title: "Completed!", message: "This recipe was deleted", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func showSpinner(){
+        aView = UIView(frame: self.view.bounds)
+        aView?.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let ai = UIActivityIndicatorView(style: .whiteLarge)
+        ai.center = aView!.center
+        ai.startAnimating()
+        aView?.addSubview(ai)
+        self.view.addSubview(aView!)
+    }
+    func removeSpinner(){
+        aView?.removeFromSuperview()
+        aView = nil
     }
 }
 

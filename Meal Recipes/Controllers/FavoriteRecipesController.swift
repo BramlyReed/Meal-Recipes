@@ -1,6 +1,6 @@
 //
 //  FavoriteRecipesController.swift
-//  Recipes
+//  Meal Recipes
 //
 //  Created by Stas on 19.12.2020.
 //
@@ -11,6 +11,7 @@ import SDWebImage
 
 class FavoriteRecipesController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    var aView: UIView?
     @IBOutlet weak var collectionView: UICollectionView!
     
     let realm = try! Realm()
@@ -42,14 +43,9 @@ class FavoriteRecipesController: UIViewController, UICollectionViewDelegate, UIC
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let data = storedObjects[indexPath.item].imageURL
-        UserDefaults.standard.setValue( data, forKey: "SavedURL")
-        print(data)
-                   
-        
         var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionCell", for: indexPath) as! CollectionViewCell
         if self.storedObjects.count != 0 {
-            print("I have stored objects: \(storedObjects.count)")
+            //print("I have stored objects: \(storedObjects.count)")
             let url = URL(string: storedObjects[indexPath.item].imageURL)
             cell.imageURL = URL(string: storedObjects[indexPath.row].imageURL)
         }
@@ -67,24 +63,24 @@ class FavoriteRecipesController: UIViewController, UICollectionViewDelegate, UIC
             var tmpingredients = storedObjects[indexPath.row].ingredients
             var tmpinstructions = storedObjects[indexPath.row].instructions
             present(VC, animated: true)
-            API.getPhoto(photomodel: storedObjects[indexPath.row].imageURL){
-                gotPhoto in
-                if gotPhoto != nil {
-                    DispatchQueue.main.async {
-                        VC.imagePlace.image = gotPhoto
-                        }
-                    }
-            }
+            
+            let gurl = URL(string: storedObjects[indexPath.row].imageURL)
+            VC.imagePlace.sd_setImage(with: gurl)
             VC.storedID = tmpid
             VC.mealName.text = tmpname
             VC.storedURL = tmpurl
             VC.ingredienstLabel.text = tmpingredients
             VC.instructionsLabel.text = tmpinstructions
+            VC.imagePlace.isHidden = false
+            VC.mealName.isHidden = false
+            VC.ingredienstLabel.isHidden = false
+            VC.instructionsLabel.isHidden = false
             VC.multyButton.setTitle("Delete", for: .normal)
             VC.multyButton.setTitleColor(.red, for: .normal)
             VC.multyButton.isHidden = false
             VC.randomButton.isHidden = true
             VC.textButtonChanger = false
+            
         }
     }
     
@@ -100,6 +96,4 @@ class FavoriteRecipesController: UIViewController, UICollectionViewDelegate, UIC
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         10
     }
-    
 }
-

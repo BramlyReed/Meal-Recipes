@@ -1,6 +1,6 @@
 //
 //  FindNameController.swift
-//  Recipes
+//  Meal Recipes
 //
 //  Created by Stas on 07.12.2020.
 //
@@ -9,10 +9,11 @@ import UIKit
 
 class FindNameController: UIViewController, MyTableViewCellDelegate {
 
+    //MARK: Make sure that you don't use a hardwarekeybord. Only device's keybord, because searchButton is located in keybord.
+    var aView: UIView?
     var meals: [Meal] = []
     var mealNames: [String] = []
     var mealId: [String] = []
-    var signal = true
     @IBOutlet weak var tableWithNames: UITableView!
     @IBOutlet weak var searchString: UITextField!
     override func viewDidLoad() {
@@ -38,17 +39,27 @@ class FindNameController: UIViewController, MyTableViewCellDelegate {
             self.meals = []
             self.mealNames = []
             self.mealId = []
+            //if we got Emoji or whitespaces - remove it
+            var tmpString = searchString.text!.components(separatedBy: CharacterSet.symbols).joined()
+            tmpString = tmpString.trimmingCharacters(in: .whitespacesAndNewlines)
+
             var customURL = "https://www.themealdb.com/api/json/v1/1/search.php?s="
-            customURL += searchString.text!
-            var replacedString = customURL.replacingOccurrences(of: " ", with: "")
-            URLSession.shared.dataTask(with: URL(string: replacedString)!, completionHandler: { data, response, error in
+            customURL += tmpString
+            //if whitespaces or something else weren't removed show allert
+            guard let readyURL = URL(string: customURL) else{
+                showAlertErrorAnother()
+                return
+            }
+            self.showSpinner()
+            URLSession.shared.dataTask(with: readyURL, completionHandler: { data, response, error in
                 guard let data = data, error == nil else{
                     print("Some error got after request!")
+                    self.removeSpinner()
                     return
                 }
-                // if we got nil result - {"meals":null}
+                // if we got nil result - {"meals":null} or no data
                 var resultmeal: Mealdata
-                if data.count == 14{
+                if (data.count == 14 || data.count == 0){
                     DispatchQueue.main.async {
                         self.mealNames.append("Nothing found")
                         self.tableWithNames.reloadData()
@@ -67,8 +78,10 @@ class FindNameController: UIViewController, MyTableViewCellDelegate {
                     }
                 }
             }).resume()
+            self.removeSpinner()
         }
     }
+    
     // MARK: show RandomController with choosen recipe's cell
     func showFoundNames(){
         guard let VC = storyboard?.instantiateViewController(identifier: "showController") as? RandomController else { return }
@@ -105,6 +118,28 @@ extension FindNameController: UITextFieldDelegate{
             findnames()
         }
         return true
+    }
+}
+
+// MARK: extension: alerts and spinner for RandomController
+extension FindNameController {
+    func showAlertErrorAnother() {
+        let alert = UIAlertController(title: "Error!", message: "Try again with another search string", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    func showSpinner(){
+        aView = UIView(frame: self.view.bounds)
+        aView?.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let ai = UIActivityIndicatorView(style: .whiteLarge)
+        ai.center = aView!.center
+        ai.startAnimating()
+        aView?.addSubview(ai)
+        self.view.addSubview(aView!)
+    }
+    func removeSpinner(){
+        aView?.removeFromSuperview()
+        aView = nil
     }
 }
 

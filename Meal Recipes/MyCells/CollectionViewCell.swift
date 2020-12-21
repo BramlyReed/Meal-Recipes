@@ -1,6 +1,6 @@
 //
 //  CollectionViewCell.swift
-//  Recipes
+//  Meal Recipes
 //
 //  Created by Stas on 11.12.2020.
 //
@@ -13,7 +13,7 @@ class CollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var standImage: UIImageView!
     var imageURL: URL!{
         didSet{
-            print(imageURL)
+            //print(imageURL)
             self.standImage.sd_setImage(with: imageURL)
         }
     }
