@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-typealias JSON = [String: Any]
+
 enum API{
     
     static func randomReq(to_url: String, completion: @escaping (Mealdata) -> Void){
