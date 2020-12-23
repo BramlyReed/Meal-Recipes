@@ -92,8 +92,10 @@
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="search" id="OT5-sb-WUM"/>
                     <connections>
+                        <outlet property="bottomConstrTableWithNames" destination="ita-xM-XuP" id="8fW-eL-9h4"/>
                         <outlet property="searchString" destination="OIQ-cg-2Tt" id="L75-iw-awJ"/>
                         <outlet property="tableWithNames" destination="Xky-ac-FkH" id="pcK-mH-xmB"/>
+                        <outlet property="topConstrTableWithNames" destination="yYt-Yc-OqB" id="Mld-LE-MVV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="twb-6z-7ZX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -15,6 +15,11 @@ class FindNameController: UIViewController, MyTableViewCellDelegate {
     var mealNames: [String] = []
     var mealId: [String] = []
     @IBOutlet weak var tableWithNames: UITableView!
+    
+    @IBOutlet weak var topConstrTableWithNames: NSLayoutConstraint!
+    
+    @IBOutlet weak var bottomConstrTableWithNames: NSLayoutConstraint!
+    
     @IBOutlet weak var searchString: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +29,15 @@ class FindNameController: UIViewController, MyTableViewCellDelegate {
         tableWithNames.isHidden = false
         searchString.layer.cornerRadius = 15.0
         searchString.layer.borderWidth = 0.5
+        NotificationCenter.default.addObserver(self, selector: #selector(kbWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(kbWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+    }
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        
     }
     
     // MARK: To hide keyboard
@@ -33,6 +47,22 @@ class FindNameController: UIViewController, MyTableViewCellDelegate {
             }
             super.touchesBegan(touches, with: event)
         }
+    
+    @objc func kbWillShow(notification: Notification){
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        let keyboardHeight = keyboardSize.height
+            print(keyboardHeight)
+            self.bottomConstrTableWithNames.constant -= keyboardHeight
+            //self.topConstrTableWithNames.constant = 10
+            //self.tableWithNames.contentOffset = CGPoint(x: 0, y: keyboardHeight)
+        }
+    }
+    @objc func kbWillHide(notification: Notification){
+        //self.topConstrTableWithNames.constant = 10
+        self.bottomConstrTableWithNames.constant = 0
+        //tableWithNames.contentOffset = CGPoint.zero
+    }
+    
     // MARK: Seaching recipes with name from seacrhString
     func findnames(){
         if searchString.text != ""{
@@ -95,18 +125,18 @@ extension FindNameController: UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         self.tableWithNames.isHidden = false
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! TableCell
-        cell.settext(name: mealNames[indexPath.item])
-        cell.delegate = self
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as? TableCell
+        cell?.settext(name: mealNames[indexPath.item])
+        cell?.delegate = self
+        return cell!
     }
 }
 extension FindNameController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        let cell = tableWithNames.cellForRow(at: indexPath) as! TableCell
         if self.mealNames[indexPath.row] != "Nothing found"{
             //saving recipe's id in UserDefaults
-            var tmpId = mealId[indexPath.row]
+            print("CELL# \(indexPath.row)")
+            let tmpId = mealId[indexPath.row]
             UserDefaults.standard.setValue(tmpId, forKey: "SavedId")
             showFoundNames()
         }
@@ -134,7 +164,6 @@ extension FindNameController {
         let ai = UIActivityIndicatorView(style: .whiteLarge)
         ai.center = aView!.center
         ai.startAnimating()
-        aView?.addSubview(ai)
         self.view.addSubview(aView!)
     }
     func removeSpinner(){

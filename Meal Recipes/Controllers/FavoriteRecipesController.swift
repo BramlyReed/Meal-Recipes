@@ -36,52 +36,44 @@ class FavoriteRecipesController: UIViewController, UICollectionViewDelegate, UIC
         self.collectionView.reloadData()
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let myObjects = realm.objects(SavedMeal.self)
-        //print(myObjects.count)
-        return myObjects.count
+        return storedObjects.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionCell", for: indexPath) as! CollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionCell", for: indexPath) as! CollectionViewCell
         if self.storedObjects.count != 0 {
-            //print("I have stored objects: \(storedObjects.count)")
-            let url = URL(string: storedObjects[indexPath.item].imageURL)
             cell.imageURL = URL(string: storedObjects[indexPath.row].imageURL)
         }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionCell", for: indexPath) as! CollectionViewCell
-        if storedObjects.count != 0{
-            guard let VC = storyboard?.instantiateViewController(identifier: "showController") as? RandomController else { return }
+        guard let VC = storyboard?.instantiateViewController(identifier: "showController") as? RandomController else { return }
             VC.modalTransitionStyle = .flipHorizontal
-            var tmpid = storedObjects[indexPath.row].id
-            var tmpname = storedObjects[indexPath.row].name
-            var tmpurl = storedObjects[indexPath.row].imageURL
-            var tmpingredients = storedObjects[indexPath.row].ingredients
-            var tmpinstructions = storedObjects[indexPath.row].instructions
-            present(VC, animated: true)
+        let tmpid = storedObjects[indexPath.row].id
+        let tmpname = storedObjects[indexPath.row].name
+        let tmpurl = storedObjects[indexPath.row].imageURL
+        let tmpingredients = storedObjects[indexPath.row].ingredients
+        let tmpinstructions = storedObjects[indexPath.row].instructions
+        present(VC, animated: true)
             
-            let gurl = URL(string: storedObjects[indexPath.row].imageURL)
-            VC.imagePlace.sd_setImage(with: gurl)
-            VC.storedID = tmpid
-            VC.mealName.text = tmpname
-            VC.storedURL = tmpurl
-            VC.ingredienstLabel.text = tmpingredients
-            VC.instructionsLabel.text = tmpinstructions
-            VC.imagePlace.isHidden = false
-            VC.mealName.isHidden = false
-            VC.ingredienstLabel.isHidden = false
-            VC.instructionsLabel.isHidden = false
-            VC.multyButton.setTitle("Delete", for: .normal)
-            VC.multyButton.setTitleColor(.red, for: .normal)
-            VC.multyButton.isHidden = false
-            VC.randomButton.isHidden = true
-            VC.textButtonChanger = false
-            
-        }
+        let gurl = URL(string: storedObjects[indexPath.row].imageURL)
+        VC.imagePlace.sd_setImage(with: gurl)
+        VC.storedID = tmpid
+        VC.mealName.text = tmpname
+        VC.storedURL = tmpurl
+        VC.ingredienstLabel.text = tmpingredients
+        VC.instructionsLabel.text = tmpinstructions
+        VC.imagePlace.isHidden = false
+        VC.mealName.isHidden = false
+        VC.ingredienstLabel.isHidden = false
+        VC.instructionsLabel.isHidden = false
+        VC.multyButton.setTitle("Delete", for: .normal)
+        VC.multyButton.setTitleColor(.red, for: .normal)
+        VC.multyButton.isHidden = false
+        VC.randomButton.isHidden = true
+        VC.textButtonChanger = false
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

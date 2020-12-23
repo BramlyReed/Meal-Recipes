@@ -34,11 +34,11 @@ class RandomController: UIViewController {
         
         // MARK: get recipe's id from UserDefaults
         
-        var name = UserDefaults.standard.string(forKey: "SavedId") ?? "Unknown"
+        let name = UserDefaults.standard.string(forKey: "SavedId") ?? "Unknown"
         //if were some actions from FindNameController
         if name != "Unknown"{
             self.randomButton.isHidden = true
-            var tmp = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + name
+            let tmp = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + name
             UserDefaults.standard.removeObject(forKey: "SavedId")
             getRecepi(gURL: tmp)
         }
@@ -52,10 +52,10 @@ class RandomController: UIViewController {
     
     @IBAction func SaveOrDeleteButton(_ sender: Any) {
         let realm = try! Realm()
-        let basa = realm.objects(SavedMeal.self)
-        var tmpObject = SavedMeal(id: self.storedID!, name: self.mealName.text!, imageURL: self.storedURL!, ingredients: self.ingredienstLabel.text!, instructions: self.instructionsLabel.text!)
+        //let basa = realm.objects(SavedMeal.self)
+        let tmpObject = SavedMeal(id: self.storedID!, name: self.mealName.text!, imageURL: self.storedURL!, ingredients: self.ingredienstLabel.text!, instructions: self.instructionsLabel.text!)
         if multyButton.titleLabel!.text == "Save"{
-            let uniqueAmount = realm.objects(SavedMeal.self).filter("id = %@", self.storedID)
+            let uniqueAmount = realm.objects(SavedMeal.self).filter("id = %@", self.storedID as Any)
             if uniqueAmount.count == 0{
                 try! realm.write{
                     realm.add(tmpObject)
@@ -70,7 +70,7 @@ class RandomController: UIViewController {
             }
         }
         else{
-            let object = realm.objects(SavedMeal.self).filter("id = %@", self.storedID).first
+            let object = realm.objects(SavedMeal.self).filter("id = %@", self.storedID as Any).first
             try! realm.write {
                 if let obj = object{
                     realm.delete(obj)
