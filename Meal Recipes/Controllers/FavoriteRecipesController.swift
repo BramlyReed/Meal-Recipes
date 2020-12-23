@@ -21,7 +21,7 @@ class FavoriteRecipesController: UIViewController, UICollectionViewDelegate, UIC
         updateDataFromRealm()
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(UINib(nibName: "CCC", bundle: nil), forCellWithReuseIdentifier: "CustomCollectionCell")
+        collectionView.register(UINib(nibName: "CustomCollectionCell", bundle: nil), forCellWithReuseIdentifier: "CustomCollectionCell")
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateDataFromRealm), name: NSNotification.Name(rawValue: "load"), object: nil)
     }

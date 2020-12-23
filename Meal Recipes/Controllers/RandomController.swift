@@ -7,8 +7,12 @@
 
 import UIKit
 import RealmSwift
-class RandomController: UIViewController {
 
+protocol MyCustomAllerts: AnyObject{
+    func showcustomAlert(tmp: String, message: String)
+}
+
+class RandomController: UIViewController, MyCustomAllerts {
     var aView: UIView?
     var storedID: String?
     var storedURL: String?
@@ -52,7 +56,6 @@ class RandomController: UIViewController {
     
     @IBAction func SaveOrDeleteButton(_ sender: Any) {
         let realm = try! Realm()
-        //let basa = realm.objects(SavedMeal.self)
         let tmpObject = SavedMeal(id: self.storedID!, name: self.mealName.text!, imageURL: self.storedURL!, ingredients: self.ingredienstLabel.text!, instructions: self.instructionsLabel.text!)
         if multyButton.titleLabel!.text == "Save"{
             let uniqueAmount = realm.objects(SavedMeal.self).filter("id = %@", self.storedID as Any)
@@ -60,13 +63,10 @@ class RandomController: UIViewController {
                 try! realm.write{
                     realm.add(tmpObject)
                 }
-                showAlertSaved()
-                //print("SAVED")
-                //print(basa.last!.name)
+                showcustomAlert(tmp: "Completed!", message: "This recipe was saved.")
             }
             else{
-                showAlertError()
-                //print("NOT UNIQUE")
+                showcustomAlert(tmp: "Error!", message: "This recipe was already saved.")
             }
         }
         else{
@@ -76,9 +76,7 @@ class RandomController: UIViewController {
                     realm.delete(obj)
                 }
             }
-            showAlertDeleted()
-            //print("DELETE")
-            //print(basa.count)
+            showcustomAlert(tmp: "Deleted!", message: "This recipe was deleted.")
         }
         textButtonChanger.toggle()
         if !(textButtonChanger){
@@ -100,15 +98,15 @@ class RandomController: UIViewController {
         API.randomReq(to_url: url) { mealll in
             if mealll != nil{
                 
-                self.meals = mealll.meals.last!
-                self.storedID = self.meals!.id
-                self.storedURL = self.meals!.imageURLString
-                self.mealName.text = self.meals!.name
+                self.meals = mealll.meals.last
+                self.storedID = self.meals?.id
+                self.storedURL = self.meals?.imageURLString
+                self.mealName.text = self.meals?.name
                 
                 // MARK: get image of recipe
                 
-                let tmp_photomodel = mealll.meals.last!.imageURLString
-                API.getPhoto(photomodel: tmp_photomodel) {
+                let tmp_photomodel = mealll.meals.last?.imageURLString
+                API.getPhoto(photomodel: tmp_photomodel!) {
                     gotPhoto in
                     if gotPhoto != nil {
                         DispatchQueue.main.async {
@@ -120,9 +118,9 @@ class RandomController: UIViewController {
                 self.mealName.isHidden = false
                 self.imagePlace.isHidden = false
                 self.ingredienstLabel.text = ("INGREDIENTS:")
-                self.ingredienstLabel.text! += self.meals!.ingredients
-                self.instructionsLabel.text = "INSTRUCTIONS:"
-                self.instructionsLabel.text! += "\n\(self.meals!.instructions)"
+                self.ingredienstLabel.text? += self.meals!.ingredients
+                self.instructionsLabel.text? = "INSTRUCTIONS:"
+                self.instructionsLabel.text? += "\n\(self.meals!.instructions)"
                 self.ingredienstLabel.isHidden = false
                 self.instructionsLabel.isHidden = false
                 self.removeSpinner()
@@ -144,25 +142,15 @@ class RandomController: UIViewController {
         }
         textButtonChanger.toggle()
     }
-}
-// MARK: extension: alerts and spinner for RandomController
-extension RandomController {
-    func showAlertSaved() {
-        let alert = UIAlertController(title: "Comlpeted!", message: "This recipe was saved", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    func showAlertError() {
-        let alert = UIAlertController(title: "Error!", message: "This recipe was already saved", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    func showAlertDeleted() {
-        let alert = UIAlertController(title: "Completed!", message: "This recipe was deleted", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
     
+    func showcustomAlert(tmp: String, message: String) {
+        let alert = UIAlertController(title: tmp, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+}
+// MARK: extension spinner for RandomController
+extension RandomController {
     func showSpinner(){
         aView = UIView(frame: self.view.bounds)
         aView?.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)

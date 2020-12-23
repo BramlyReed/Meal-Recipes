@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FindNameController: UIViewController, MyTableViewCellDelegate {
+class FindNameController: UIViewController, MyTableViewCellDelegate, MyCustomAllerts {
 
     //MARK: Make sure that you don't use a hardwarekeybord. Only device's keybord, because searchButton is located in keybord.
     var aView: UIView?
@@ -15,12 +15,8 @@ class FindNameController: UIViewController, MyTableViewCellDelegate {
     var mealNames: [String] = []
     var mealId: [String] = []
     @IBOutlet weak var tableWithNames: UITableView!
-    
-    @IBOutlet weak var topConstrTableWithNames: NSLayoutConstraint!
-    
-    @IBOutlet weak var bottomConstrTableWithNames: NSLayoutConstraint!
-    
     @IBOutlet weak var searchString: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableWithNames.dataSource = self
@@ -29,18 +25,17 @@ class FindNameController: UIViewController, MyTableViewCellDelegate {
         tableWithNames.isHidden = false
         searchString.layer.cornerRadius = 15.0
         searchString.layer.borderWidth = 0.5
+        //notifications for keyboard detection
         NotificationCenter.default.addObserver(self, selector: #selector(kbWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(kbWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
     }
+    // MARK: Keyboard
+    //remove notifications when controller's out
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        
     }
-    
-    // MARK: To hide keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if  touches.first != nil{
                 view.endEditing(true)
@@ -49,18 +44,11 @@ class FindNameController: UIViewController, MyTableViewCellDelegate {
         }
     
     @objc func kbWillShow(notification: Notification){
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-        let keyboardHeight = keyboardSize.height
-            print(keyboardHeight)
-            self.bottomConstrTableWithNames.constant -= keyboardHeight
-            //self.topConstrTableWithNames.constant = 10
-            //self.tableWithNames.contentOffset = CGPoint(x: 0, y: keyboardHeight)
-        }
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else {return}
+        tableWithNames.contentInset.bottom = keyboardSize.height
     }
     @objc func kbWillHide(notification: Notification){
-        //self.topConstrTableWithNames.constant = 10
-        self.bottomConstrTableWithNames.constant = 0
-        //tableWithNames.contentOffset = CGPoint.zero
+        tableWithNames.contentInset.bottom = .zero
     }
     
     // MARK: Seaching recipes with name from seacrhString
@@ -77,7 +65,7 @@ class FindNameController: UIViewController, MyTableViewCellDelegate {
             customURL += tmpString
             //if whitespaces or something else weren't removed show allert
             guard let readyURL = URL(string: customURL) else{
-                showAlertErrorAnother()
+                showcustomAlert(tmp: "Error!", message: "Try again with another search string.")
                 return
             }
             self.showSpinner()
@@ -118,6 +106,12 @@ class FindNameController: UIViewController, MyTableViewCellDelegate {
         VC.modalTransitionStyle = .flipHorizontal
         present(VC,animated: true)
     }
+    
+    func showcustomAlert(tmp: String, message: String) {
+        let alert = UIAlertController(title: tmp, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }
 extension FindNameController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -135,7 +129,6 @@ extension FindNameController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         if self.mealNames[indexPath.row] != "Nothing found"{
             //saving recipe's id in UserDefaults
-            print("CELL# \(indexPath.row)")
             let tmpId = mealId[indexPath.row]
             UserDefaults.standard.setValue(tmpId, forKey: "SavedId")
             showFoundNames()
@@ -151,13 +144,8 @@ extension FindNameController: UITextFieldDelegate{
     }
 }
 
-// MARK: extension: alerts and spinner for RandomController
+// MARK: extension spinner for RandomController
 extension FindNameController {
-    func showAlertErrorAnother() {
-        let alert = UIAlertController(title: "Error!", message: "Try again with another search string", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
     func showSpinner(){
         aView = UIView(frame: self.view.bounds)
         aView?.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)

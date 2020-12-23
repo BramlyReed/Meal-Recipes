@@ -11,7 +11,7 @@ import SDWebImage
 class CollectionViewCell: UICollectionViewCell {
    
     @IBOutlet weak var standImage: UIImageView!
-    var imageURL: URL!{
+    var imageURL: URL?{
         didSet{
             //print(imageURL)
             self.standImage.sd_setImage(with: imageURL)

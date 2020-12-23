@@ -78,24 +78,22 @@
                         <viewLayoutGuide key="safeArea" id="50q-xb-plK"/>
                         <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Xky-ac-FkH" firstAttribute="top" secondItem="OIQ-cg-2Tt" secondAttribute="bottom" constant="10" id="0Sg-gN-H6b"/>
                             <constraint firstItem="Uh0-om-Mlw" firstAttribute="top" secondItem="50q-xb-plK" secondAttribute="top" constant="15" id="6gn-rG-2Kv"/>
                             <constraint firstItem="OIQ-cg-2Tt" firstAttribute="leading" secondItem="50q-xb-plK" secondAttribute="leading" constant="10" id="HZm-V8-55e"/>
                             <constraint firstItem="Xky-ac-FkH" firstAttribute="leading" secondItem="50q-xb-plK" secondAttribute="leading" id="USA-hS-raK"/>
                             <constraint firstItem="Uh0-om-Mlw" firstAttribute="leading" secondItem="50q-xb-plK" secondAttribute="leading" constant="30" id="bgA-i8-AbQ"/>
                             <constraint firstItem="OIQ-cg-2Tt" firstAttribute="top" secondItem="Uh0-om-Mlw" secondAttribute="bottom" id="gpZ-9J-bRd"/>
-                            <constraint firstItem="Xky-ac-FkH" firstAttribute="bottom" secondItem="50q-xb-plK" secondAttribute="bottom" id="ita-xM-XuP"/>
                             <constraint firstItem="50q-xb-plK" firstAttribute="trailing" secondItem="OIQ-cg-2Tt" secondAttribute="trailing" constant="10" id="jRx-ip-qx3"/>
+                            <constraint firstItem="Xky-ac-FkH" firstAttribute="bottom" secondItem="50q-xb-plK" secondAttribute="bottom" id="jbC-iX-CrK"/>
                             <constraint firstItem="50q-xb-plK" firstAttribute="trailing" secondItem="Xky-ac-FkH" secondAttribute="trailing" id="vvJ-IT-ULi"/>
-                            <constraint firstItem="Xky-ac-FkH" firstAttribute="top" secondItem="OIQ-cg-2Tt" secondAttribute="bottom" constant="10" id="yYt-Yc-OqB"/>
                             <constraint firstItem="50q-xb-plK" firstAttribute="trailing" secondItem="Uh0-om-Mlw" secondAttribute="trailing" constant="30" id="yyu-K3-M0y"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="search" id="OT5-sb-WUM"/>
                     <connections>
-                        <outlet property="bottomConstrTableWithNames" destination="ita-xM-XuP" id="8fW-eL-9h4"/>
                         <outlet property="searchString" destination="OIQ-cg-2Tt" id="L75-iw-awJ"/>
                         <outlet property="tableWithNames" destination="Xky-ac-FkH" id="pcK-mH-xmB"/>
-                        <outlet property="topConstrTableWithNames" destination="yYt-Yc-OqB" id="Mld-LE-MVV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="twb-6z-7ZX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
