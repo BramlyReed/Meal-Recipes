@@ -118,7 +118,7 @@ class RandomController: UIViewController, MyCustomAllerts {
                 self.mealName.isHidden = false
                 self.imagePlace.isHidden = false
                 self.ingredienstLabel.text = ("INGREDIENTS:")
-                self.ingredienstLabel.text? += self.meals!.ingredients
+                self.ingredienstLabel.text? += "\(self.meals!.ingredients)"
                 self.instructionsLabel.text? = "INSTRUCTIONS:"
                 self.instructionsLabel.text? += "\n\(self.meals!.instructions)"
                 self.ingredienstLabel.isHidden = false

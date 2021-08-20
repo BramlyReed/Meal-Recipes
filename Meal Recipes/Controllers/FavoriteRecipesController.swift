@@ -36,7 +36,8 @@ class FavoriteRecipesController: UIViewController, UICollectionViewDelegate, UIC
         self.collectionView.reloadData()
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return storedObjects.count
+        let myObjects = realm.objects(SavedMeal.self)
+        return myObjects.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

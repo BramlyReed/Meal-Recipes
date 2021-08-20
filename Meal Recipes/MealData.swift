@@ -34,7 +34,7 @@ struct Meal: Codable{
             !ingredient.isEmpty,
             !measure.isEmpty {
             ingredients.append(.init(name: ingredient, measure: measure))
-            stringIngredient += "\n\(ingredients.last?.name) (\(ingredients.last!.measure))"
+            stringIngredient += "\n\(ingredients.last!.name) (\(ingredients.last!.measure))"
             index += 1
             }
         self.id = mealDictionary["idMeal"] as? String ?? ""
