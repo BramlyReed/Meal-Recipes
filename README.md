@@ -20,3 +20,11 @@ RandomController - экран, предназначенный для вывод�
 
 В качестве вспомогательных средств в проекте используются: RealmSwift и SDWebImage. RealmSwift позволяет сохранять в памяти устройства данные о рецепте - название, ссылка на изображение,
 ингредиенты и инструкции. SDWebImage кэширует изображения рецептов в ячейки CollectionView.
+
+Скриншоты:
+
+![img](https://github.com/BramlyReed/Meal-Recipes/blob/main/Скриншот%201.png)
+![img](https://github.com/BramlyReed/Meal-Recipes/blob/main/Скриншот%202.png)
+![img](https://github.com/BramlyReed/Meal-Recipes/blob/main/Скриншот%203.png)
+![img](https://github.com/BramlyReed/Meal-Recipes/blob/main/Скриншот%204.png)
+![img](https://github.com/BramlyReed/Meal-Recipes/blob/main/Скриншот%205.png)
